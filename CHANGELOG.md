@@ -8,6 +8,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+- 契约升级 v0.0.3：五环节固定骨架 + 各类型 stage_requirements 配置（required/optional/skipped）
+- 治理内容迁出至 quanttide-org 领域（章程、设计意图、治理手册）
+- 澄清无辩论区：真人议事简洁路径与 AI 模拟辩论分工
+
 ## [0.1.0] - 2026-08-04
 
 ### Added
