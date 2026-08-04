@@ -1,50 +1,43 @@
-# 议事档案标本契约 v0.0.4
+# 议事档案标本契约 v0.0.5
 # 从实际议事档案中发现结构，固化下来形成标本
 # 五环节为系统固定骨架，具体议事规则（类型 × 环节要求）通过 stage_requirements 配置
-# 决议是议事的结果，独立于议题单独管理，方便统一治理
+# 议事规则、议程、决议均为独立实体，不混入议题类型
 
-spec_version: 0.0.4
+spec_version: 0.0.5
 
 name: 议事档案
 description: |
   记录团队集体决策过程的知识库，以议题为单位，按时间（年份+周次）组织。
   本质是"标本"——从真实决策过程中发现结构，固化下来供后续验证和复用。
   核心理念："发现而非发明"——模型从资产中长出，不是预设的模板。
-  架构原则：五节点生命周期是系统固定骨架（不可变），每种议题类型对五个环节的要求（required/optional/skipped）是配置层，可按需求调整。
+  架构原则：五节点生命周期是系统固定骨架（不可变）；议事规则、议程、决议为独立实体；
+  议题类型对五个环节的要求（required/optional/skipped）是配置层，可按需求调整。
 
 structure:
   root: 议事档案
   metadata:
     - 首页（议事活动和编号规则）
   children:
+    - name: 议事规则
+      description: 常驻的议事规则配置，定义议事如何进行，非一次性议题
+      fields:
+        - 规则内容
+        - 版本
+        - 修订记录
+        - 生效状态
+      management: |
+        规则库统一管理（版本化、可追溯）。
+        规则修订经议事流程（决策/提案审计类议题）产出后更新规则库。
+    - name: 议程
+      description: 会议的骨架，组织多个议题，非议题类型
+      fields:
+        - 时间
+        - 参与者
+        - 议程项（关联议题列表）
+      source: 会议创建时编排（meeting 组件）；议程项可关联议题、@提及行动项
     - name: 议题
-      description: 集体讨论的最小单元，按类型区分
+      description: 集体讨论的过程记录，按类型区分
       types:
-        - name: 议事规则
-          description: 目标设定、任务分解、行动指派
-          expected_fields:
-            - 动议区（目标、@提及、行动项）
-            - 附议区（可选）
-          lifecycle_node: 动议提出
-          stage_requirements:
-            议题创建: required
-            动议提出: required
-            附议扩散: optional
-            决议形成: skipped
-            归档沉淀: required
-        - name: 议程
-          description: 会议时间、参与者、讨论安排
-          expected_fields:
-            - 时间
-            - 参与者
-            - 议程项
-          lifecycle_node: 议题创建
-          stage_requirements:
-            议题创建: required
-            动议提出: skipped
-            附议扩散: skipped
-            决议形成: skipped
-            归档沉淀: required
         - name: 决策
           description: 多选项权衡后的集体决定
           expected_fields:
@@ -92,7 +85,7 @@ structure:
             决议形成: optional
             归档沉淀: required
         - name: 提案审计
-          description: 提案的正式评审
+          description: 提案的正式评审（含议事规则修订提案）
           expected_fields:
             - 提案内容
             - 评审意见
@@ -129,21 +122,9 @@ structure:
             附议扩散: skipped
             决议形成: required
             归档沉淀: required
-        - name: 决议
-          description: 最终决策的正式记录
-          expected_fields:
-            - 决议内容
-            - 投票结果（如有）
-          lifecycle_node: 决议形成
-          stage_requirements:
-            议题创建: required
-            动议提出: skipped
-            附议扩散: skipped
-            决议形成: required
-            归档沉淀: required
     - name: 决议
       description: 议事的结果，独立于议题单独管理，方便统一治理
-      source: 议题"决议形成"节点产出的决议实体（或"决议"类型议题直接创建）
+      source: 议题"决议形成"节点产出的决议实体（或直接创建决议）
       fields:
         - 决议内容
         - 投票结果（如有）
@@ -164,6 +145,7 @@ lifecycle:
     辩论区在当前实践中不运转，已移除；决议区为可选，非必然产物。
     具体规则由各议题类型的 stage_requirements 配置：required（必经）、optional（可跳过）、skipped（不适用）。
     决议形成节点产出的决议实体脱离议题，进入决议档案单独管理（见 structure.children.决议）。
+    议事规则与议程为独立实体，不参与议题生命周期（规则修订经决策/提案审计议题产出；议程由会议编排）。
   nodes:
     - 议题创建: 新议题按类型选择模板，填写元数据
     - 动议提出: 在动议区填写核心内容（目标/选项/问题等）
@@ -182,8 +164,12 @@ business_process:
     - 议题创建: 新议题按类型选择模板
     - 动议提出: 动议区填写核心提案
     - 附议扩散: 相关人表态（按类型配置）
-    - 决议形成: 拍板决定（按类型配置）
+    - 决议形成: 拍板决定（按类型配置）；决议实体进入决议档案
     - 归档沉淀: 存入知识库
+  独立实体:
+    - 议事规则: 规则库版本化管理，修订经议事流程产出
+    - 议程: 会议创建时编排，议程项关联议题
+    - 决议: 决议档案统一治理
   反推验证: |
     AI 将实际文档内容与此处定义的预期流程对照，
     检查实际走了几步、缺了哪步、多余了哪些，
