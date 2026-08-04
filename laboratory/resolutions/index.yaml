@@ -1,0 +1,23 @@
+generated_at: '2026-08-04'
+stats:
+  总数: 3
+  待执行: 0
+  执行中: 1
+  已完成: 1
+  逾期: 1
+resolutions:
+- id: 2026-W31-001
+  title: 建立决议档案系统
+  owner: 张果
+  due: 2026-08-15
+  status: 执行中
+- id: 2026-W31-002
+  title: 团队周报机制落地
+  owner: 秘书长
+  due: 2026-08-01
+  status: 逾期
+- id: 2026-W31-003
+  title: 飞书客户资料梳理
+  owner: 商务负责人
+  due: 2026-07-30
+  status: 已完成

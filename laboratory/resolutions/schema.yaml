@@ -1,0 +1,29 @@
+# 决议 schema（实验版）
+# 对齐 contract.yaml v0.0.7 的决议独立实体；本文件定义单个决议 YAML 的结构约束
+
+required:
+  - id
+  - title
+  - content
+  - owner
+  - due
+  - status
+  - created_at
+
+optional:
+  - vote
+  - source
+  - evidence
+  - updated_at
+  - history
+
+status_enum:
+  - 待执行
+  - 执行中
+  - 已完成
+
+# 逾期为推导状态：due < today 且 status != 已完成 → 显示为"逾期"
+# 不显式存储，由索引生成脚本推导，避免状态不一致
+
+id_format: "YYYY-Www-NNN"   # 例：2026-W31-001
+due_format: "YYYY-MM-DD"

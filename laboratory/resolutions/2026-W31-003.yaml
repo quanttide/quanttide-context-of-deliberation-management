@@ -1,0 +1,24 @@
+id: 2026-W31-003
+title: 飞书客户资料梳理
+content: 整理客户群资料进第二大脑，让商务有资料可用
+owner: 商务负责人
+due: 2026-07-30
+status: 已完成
+vote:
+  support: 5
+  against: 0
+  abstain: 0
+source:
+  issue: null
+  meeting: 2026-W29-周会
+evidence:
+  - 客户资料库：https://github.com/quanttide/quanttide-profile-of-business-entity
+created_at: 2026-07-28
+updated_at: 2026-07-31
+history:
+  - at: 2026-07-28
+    by: 商务负责人
+    action: 创建
+  - at: 2026-07-31
+    by: 商务负责人
+    action: 状态更新为已完成

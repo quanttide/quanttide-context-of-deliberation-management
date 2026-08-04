@@ -1,0 +1,23 @@
+id: 2026-W31-001
+title: 建立决议档案系统
+content: 将散落在飞书的决议统一收编进决议档案，建立治理视图
+owner: 张果
+due: 2026-08-15
+status: 执行中
+vote:
+  support: 3
+  against: 0
+  abstain: 0
+source:
+  issue: null
+  meeting: 2026-W30-周会
+evidence:
+  - 决议档案目录已建立（本实验）
+created_at: 2026-08-01
+history:
+  - at: 2026-08-01
+    by: 张果
+    action: 创建
+  - at: 2026-08-04
+    by: 张果
+    action: 状态更新为执行中
