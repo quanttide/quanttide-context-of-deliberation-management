@@ -1,7 +1,7 @@
 generated_at: '2026-08-04'
 stats:
-  总数: 3
-  待执行: 0
+  总数: 6
+  待执行: 2
   执行中: 1
   已完成: 1
   逾期: 1
@@ -21,3 +21,18 @@ resolutions:
   owner: 商务负责人
   due: 2026-07-30
   status: 已完成
+- id: 2026-W03-002
+  title: 2026年第3周-提案2-数据契约
+  owner: 贺雨欣
+  due: null
+  status: 待执行
+- id: 2026-W28-001
+  title: 2026年第28周-提案1-人员晋升
+  owner: 涂雅芳
+  due: null
+  status: 待执行
+- id: import-000
+  title: 【已废止】建立各部门GTD清单
+  owner: 黄梓姗
+  due: null
+  status: 已废止

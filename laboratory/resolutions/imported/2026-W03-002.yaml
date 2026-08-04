@@ -1,0 +1,23 @@
+id: 2026-W03-002
+title: 2026年第3周-提案2-数据契约
+content: '2026年第3周-提案2-数据契约
+
+  拟使用“数据契约”全面升级数据工程工作流程。
+
+  “数据契约”是一种规范结构、格式、质量等各方面信息的一种配置文件。引入以后可以有效减少我们和客户因为对数据的理解不一致导致的各种纠纷或者低效。
+
+  正在和  研讨如何改进管理流程，和 及技术委研讨如何制定数据工程标准，和 研讨如何加入微专业教学方案，和 加急申请发一篇科普文章。'
+owner: 贺雨欣
+due: null
+status: 待执行
+vote:
+  present: true
+source:
+  imported_from: feishu_export_datacontract.md
+  meeting: null
+evidence: []
+created_at: '2026-08-04'
+history:
+- at: '2026-08-04'
+  by: 导入
+  action: 飞书导入

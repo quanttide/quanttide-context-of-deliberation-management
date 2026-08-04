@@ -25,8 +25,11 @@ def parse_date(s) -> date:
 
 def load_resolutions() -> list[dict]:
     items = []
-    for f in sorted(RESOLUTIONS_DIR.glob("*.yaml")):
+    # 递归扫描 resolutions/ 下的所有决议文件（含 import/、imported/ 子目录）
+    for f in sorted(RESOLUTIONS_DIR.glob("**/*.yaml")):
         if f.name in ("schema.yaml", "index.yaml"):
+            continue
+        if "import" in f.parts and f.suffix == ".md":
             continue
         with open(f, encoding="utf-8") as fh:
             items.append(yaml.safe_load(fh))
@@ -34,10 +37,10 @@ def load_resolutions() -> list[dict]:
 
 
 def derive_status(res: dict, today: date) -> str:
-    """逾期为推导状态：due < today 且未完成"""
+    """逾期为推导状态：due < today 且未完成；due 缺失时不推导逾期"""
     if res.get("status") == "已完成":
         return "已完成"
-    if parse_date(res["due"]) < today:
+    if res.get("due") and parse_date(res["due"]) < today:
         return "逾期"
     return res.get("status", "待执行")
 

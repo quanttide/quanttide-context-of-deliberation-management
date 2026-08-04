@@ -1,0 +1,17 @@
+id: 2026-W28-001
+title: 2026年第28周-提案1-人员晋升
+content: ''
+owner: 涂雅芳
+due: null
+status: 待执行
+vote:
+  present: true
+source:
+  imported_from: feishu_export_2026W28.md
+  meeting: null
+evidence: []
+created_at: '2026-08-04'
+history:
+- at: '2026-08-04'
+  by: 导入
+  action: 飞书导入
