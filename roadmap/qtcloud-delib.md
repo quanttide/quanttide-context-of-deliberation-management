@@ -12,8 +12,8 @@
 |---|---|---|
 | 议事规则 Rule | 常驻规则配置（版本化、修订记录、生效状态），非议题类型 | contract.yaml |
 | 议程 Agenda | 会议骨架（时间、参与者、议程项[关联议题]），非议题类型 | contract.yaml |
-| 议题 Issue | 六种类型：决策、计划、复盘研讨、提案审计、澄清评估、谈判报告；共享同一生命周期 | contract.yaml |
-| 动议区 Motion | 类型驱动的核心字段（决策→选项列表+准则+权衡；计划→目标+里程碑+责任人+时间线；…） | contract.yaml |
+| 议题 Issue | 两类模式：研讨（开放深度讨论）、提案（封闭决策）；共享同一生命周期 | contract.yaml |
+| 动议区 Motion | 模式驱动的核心字段（研讨→主题/框架；提案→内容/选项/准则） | contract.yaml |
 | 附议区 Second | 可选；表态、补充、支持 | contract.yaml |
 | 决议 Resolution | 独立实体：决议内容+投票结果+责任人+完成期限+执行状态；统一治理（跟踪/审计/统计） | contract.yaml |
 | 会议 Meeting | 时间、参与者、议程项（议程实体） | contract.yaml / handbook |

@@ -1,9 +1,9 @@
-# 议事档案标本契约 v0.0.5
+# 议事档案标本契约 v0.0.6
 # 从实际议事档案中发现结构，固化下来形成标本
-# 五环节为系统固定骨架，具体议事规则（类型 × 环节要求）通过 stage_requirements 配置
+# 五环节为系统固定骨架；议题分研讨（开放深度讨论）与提案（封闭决策）两类模式
 # 议事规则、议程、决议均为独立实体，不混入议题类型
 
-spec_version: 0.0.5
+spec_version: 0.0.6
 
 name: 议事档案
 description: |
@@ -11,7 +11,8 @@ description: |
   本质是"标本"——从真实决策过程中发现结构，固化下来供后续验证和复用。
   核心理念："发现而非发明"——模型从资产中长出，不是预设的模板。
   架构原则：五节点生命周期是系统固定骨架（不可变）；议事规则、议程、决议为独立实体；
-  议题类型对五个环节的要求（required/optional/skipped）是配置层，可按需求调整。
+  议题只有两类模式——研讨（开放深度讨论）与提案（封闭决策），
+  对五个环节的要求（required/optional/skipped）是配置层，可按需求调整。
 
 structure:
   root: 议事档案
@@ -36,90 +37,33 @@ structure:
         - 议程项（关联议题列表）
       source: 会议创建时编排（meeting 组件）；议程项可关联议题、@提及行动项
     - name: 议题
-      description: 集体讨论的过程记录，按类型区分
+      description: 集体讨论的过程记录，按模式区分（研讨/提案）
       types:
-        - name: 决策
-          description: 多选项权衡后的集体决定
+        - name: 研讨
+          description: 开放深度讨论；附议环节承载多轮开放讨论，结论可选
           expected_fields:
-            - 元数据区（申请人、审议人）
-            - 动议区（选项列表）
-            - 准则（决策依据）
-            - 权衡（选项分析）
-            - 决定（最终选择）
-            - 附议区（各方意见）
-            - 决议区（最终决定，可选）
-          lifecycle_node: 决议形成
-          stage_requirements:
-            议题创建: required
-            动议提出: required
-            附议扩散: required
-            决议形成: required
-            归档沉淀: required
-        - name: 计划
-          description: 执行方案、里程碑、责任分工
-          expected_fields:
-            - 目标
-            - 里程碑
-            - 责任人
-            - 时间线
-          lifecycle_node: 决议形成
-          stage_requirements:
-            议题创建: required
-            动议提出: required
-            附议扩散: optional
-            决议形成: required
-            归档沉淀: required
-        - name: 复盘研讨
-          description: 事后反思、经验总结、教训提炼
-          expected_fields:
-            - 问题清单
-            - 解决方案
-            - 个人心得
-            - 附议区（可选）
-            - 决议区（可选）
-          lifecycle_node: 归档沉淀
-          stage_requirements:
-            议题创建: required
-            动议提出: required
-            附议扩散: optional
-            决议形成: optional
-            归档沉淀: required
-        - name: 提案审计
-          description: 提案的正式评审（含议事规则修订提案）
-          expected_fields:
-            - 提案内容
-            - 评审意见
-            - 审计结论
-          lifecycle_node: 决议形成
-          stage_requirements:
-            议题创建: required
-            动议提出: required
-            附议扩散: optional
-            决议形成: required
-            归档沉淀: required
-        - name: 澄清评估
-          description: 对模糊事项的澄清和评估
-          expected_fields:
-            - 澄清事项
-            - 评估结论
+            - 动议区（研讨主题、框架）
+            - 附议区（开放讨论：多方补充、深度意见）
+            - 决议区（可选：研讨结论）
           lifecycle_node: 附议扩散
           stage_requirements:
             议题创建: required
             动议提出: required
             附议扩散: required
-            决议形成: skipped
+            决议形成: optional
             归档沉淀: required
-        - name: 谈判报告
-          description: 谈判过程和结果记录
+        - name: 提案
+          description: 封闭决策；动议-附议-决议简洁路径，无开放式讨论
           expected_fields:
-            - 谈判对象
-            - 谈判过程
-            - 谈判结果
+            - 元数据区（申请人、审议人）
+            - 动议区（提案内容、选项、准则）
+            - 附议区（封闭表态：附议/反对/弃权）
+            - 决议区（最终决定）
           lifecycle_node: 决议形成
           stage_requirements:
             议题创建: required
             动议提出: required
-            附议扩散: skipped
+            附议扩散: required
             决议形成: required
             归档沉淀: required
     - name: 决议
@@ -142,10 +86,10 @@ lifecycle:
   fixed_skeleton: true
   note: |
     五节点（议题创建 → 动议提出 → 附议扩散 → 决议形成 → 归档沉淀）为系统固定骨架，不可变。
-    辩论区在当前实践中不运转，已移除；决议区为可选，非必然产物。
-    具体规则由各议题类型的 stage_requirements 配置：required（必经）、optional（可跳过）、skipped（不适用）。
+    议题两类模式：研讨（附议环节开放深度讨论，决议可选）与提案（封闭决策，动议-附议-决议简洁路径，不设开放式讨论）。
+    具体规则由各模式对五环节的 stage_requirements 配置：required（必经）、optional（可跳过）、skipped（不适用）。
     决议形成节点产出的决议实体脱离议题，进入决议档案单独管理（见 structure.children.决议）。
-    议事规则与议程为独立实体，不参与议题生命周期（规则修订经决策/提案审计议题产出；议程由会议编排）。
+    议事规则与议程为独立实体，不参与议题生命周期（规则修订经提案议题产出；议程由会议编排）。
   nodes:
     - 议题创建: 新议题按类型选择模板，填写元数据
     - 动议提出: 在动议区填写核心内容（目标/选项/问题等）
